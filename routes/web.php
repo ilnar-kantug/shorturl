@@ -18,3 +18,4 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/create-url', 'UrlsController@create')->name('create-url');
+Route::post('/store-url', 'UrlsController@store')->name('store-url');
