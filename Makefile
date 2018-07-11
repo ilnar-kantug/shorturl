@@ -22,6 +22,9 @@ dev-assets:
 watch-assets:
 	docker-compose exec node yarn run watch
 
+migrate:
+	docker-compose exec php-cli php artisan migrate
+
 perm:
 	sudo chmod -R 777 vendor
 	sudo chmod -R 777 storage
