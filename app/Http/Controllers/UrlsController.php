@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\UrlHelper;
+use App\Services\UrlService;
 use Illuminate\Http\Request;
 
 class UrlsController extends Controller
 {
-    public function __construct()
+    private $service;
+
+    public function __construct(UrlService $service)
     {
         $this->middleware('auth');
+        $this->service = $service;
     }
     /**
      * Display a listing of the resource.
@@ -38,7 +43,17 @@ class UrlsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'short-url' => 'required|string|min:5|max:255',
+            'till' => 'nullable|integer'
+        ]);
+
+        try {
+            $shortUrl = $this->service->createShortUrl();
+        } catch (\Exception $exception) {
+            return back()->with('exception', 'Что-то пошло не так, попробуйте позже');
+        }
+        return back()->with('success', 'Ваш УРЛ '.UrlHelper::getFullShortUrl($shortUrl));
     }
 
     /**

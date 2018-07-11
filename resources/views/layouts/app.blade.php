@@ -68,7 +68,7 @@
         </nav>
 
         <main class="py-4">
-            @include('errors')
+            @include('flashes')
             @yield('content')
         </main>
     </div>
