@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\UrlHelper;
 use App\Http\Requests\UrlFormRequest;
 use App\Services\UrlService;
+use App\Url;
 use Illuminate\Http\Request;
 
 class UrlsController extends Controller
@@ -61,7 +62,8 @@ class UrlsController extends Controller
      */
     public function show($id)
     {
-
+        $url = Url::with('infos')->find($id);
+        return view('url-info', ['url' => $url]);
     }
 
     /**

@@ -3,9 +3,12 @@
 namespace App\Services;
 
 use App\Helpers\UrlHelper;
+use App\Info;
 use App\Url;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Jenssegers\Agent\Agent;
+use Stevebauman\Location\Location;
 
 class UrlService
 {
@@ -39,6 +42,9 @@ class UrlService
         $this->checkShort($short);
         $url = Url::where('short', $short)->firstOrFail();
         $this->checkExpiringDate($url);
+
+        $this->saveUserAgent($url->id);
+
         return UrlHelper::getFullLongUrl($url->long);
     }
 
@@ -63,5 +69,19 @@ class UrlService
     {
         $urls = Url::where('user_id', Auth::user()->id)->paginate(10);
         return UrlHelper::createUrls($urls);
+    }
+
+    private function saveUserAgent($urlId)
+    {
+        $agent = new Agent();
+        $location = new Location();
+        Info::create([
+            'url_id' => $urlId,
+            'browser' => $agent->browser(),
+            'device' => $agent->device(),
+            'platform' => $agent->platform(),
+            'ip' => request()->ip(),
+            'location' => $location->get(request()->ip())->countryName,
+        ]);
     }
 }
