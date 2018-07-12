@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Helpers\InfoHelper;
 use App\Helpers\UrlHelper;
 use App\Info;
 use App\Url;
@@ -83,5 +84,18 @@ class UrlService
             'ip' => request()->ip(),
             'location' => $location->get(request()->ip())->countryName,
         ]);
+    }
+
+    public function prepareUrlInfo($id)
+    {
+        $url = Url::with('infos')->find($id)->toArray();
+        $urlInfo = $url['infos'];
+
+        $url['stats']['browsers'] = InfoHelper::getUniqueBrowsers($urlInfo);
+        $url['stats']['device'] = InfoHelper::getUniqueDevices($urlInfo);
+        $url['stats']['platform'] = InfoHelper::getUniquePlatforms($urlInfo);
+        $url['stats']['location'] = InfoHelper::getUniqueLocations($urlInfo);
+
+        return $url;
     }
 }

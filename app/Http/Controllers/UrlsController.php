@@ -62,7 +62,7 @@ class UrlsController extends Controller
      */
     public function show($id)
     {
-        $url = Url::with('infos')->find($id);
+        $url = $this->service->prepareUrlInfo($id);
         return view('url-info', ['url' => $url]);
     }
 
