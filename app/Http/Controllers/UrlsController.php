@@ -23,7 +23,8 @@ class UrlsController extends Controller
      */
     public function index()
     {
-        //
+        $urls = $this->service->getAllUrls();
+        return view('all-urls', ['urls' => $urls]);
     }
 
     /**
@@ -60,7 +61,7 @@ class UrlsController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**

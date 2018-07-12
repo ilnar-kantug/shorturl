@@ -2,6 +2,7 @@
 namespace App\Helpers;
 
 use App\Url;
+use Carbon\Carbon;
 
 class UrlHelper
 {
@@ -39,5 +40,23 @@ class UrlHelper
     public static function getFullLongUrl($url)
     {
         return config('app.url').$url;
+    }
+
+    public static function createUrls($urls)
+    {
+        if (!empty($urls)) {
+            foreach ($urls as $url) {
+                $url->short = self::getFullShortUrl($url->short);
+                $url->long = self::getFullLongUrl($url->long);
+                if (empty($url->till)) {
+                    $url->till = 'Бесконечная';
+                } else {
+                    if (Carbon::now()->gt($url->till)) {
+                        $url->till = 'Истекла';
+                    }
+                }
+            }
+        }
+        return $urls;
     }
 }

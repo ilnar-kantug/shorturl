@@ -58,4 +58,10 @@ class UrlService
             }
         }
     }
+
+    public function getAllUrls()
+    {
+        $urls = Url::where('user_id', Auth::user()->id)->paginate(10);
+        return UrlHelper::createUrls($urls);
+    }
 }
