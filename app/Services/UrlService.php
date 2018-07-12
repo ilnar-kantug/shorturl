@@ -13,10 +13,11 @@ class UrlService
     {
         $shortUrl = UrlHelper::createUniqUrl();
         $expiringDate = $this->getExpiringDate();
+        $realUrl = UrlHelper::trimLongUrl(request('short-url'));
 
         Url::create([
             'user_id' => Auth::user()->id,
-            'long' => request('short-url'),
+            'long' => $realUrl,
             'short' => $shortUrl,
             'till' => $expiringDate,
         ]);

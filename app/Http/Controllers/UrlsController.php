@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\UrlHelper;
+use App\Http\Requests\UrlFormRequest;
 use App\Services\UrlService;
 use Illuminate\Http\Request;
 
@@ -41,13 +42,8 @@ class UrlsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UrlFormRequest $request)
     {
-        $this->validate($request, [
-            'short-url' => 'required|string|min:5|max:255',
-            'till' => 'nullable|integer'
-        ]);
-
         try {
             $shortUrl = $this->service->createShortUrl();
         } catch (\Exception $exception) {

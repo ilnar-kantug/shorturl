@@ -30,4 +30,9 @@ class UrlHelper
     {
         return config('app.url').'/z/'.$shortUrl;
     }
+
+    public static function trimLongUrl($url)
+    {
+        return str_replace(config('app.url'), '', trim($url, '/'));
+    }
 }
