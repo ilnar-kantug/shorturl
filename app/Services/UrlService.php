@@ -75,14 +75,14 @@ class UrlService
     private function saveUserAgent($urlId)
     {
         $agent = new Agent();
-        $location = new Location();
+        $location = $this->getLocation();
         Info::create([
             'url_id' => $urlId,
             'browser' => $agent->browser(),
             'device' => $agent->device(),
             'platform' => $agent->platform(),
             'ip' => request()->ip(),
-            'location' => $location->get(request()->ip())->countryName,
+            'location' => $location,
         ]);
     }
 
@@ -97,5 +97,19 @@ class UrlService
         $url['stats']['location'] = InfoHelper::getUniqueLocations($urlInfo);
 
         return $url;
+    }
+
+    private function getLocation()
+    {
+        try {
+            $json_data = file_get_contents("http://apinotes.com/ipaddress/ip.php?ip=".request()->ip()."");
+            $ip_data = json_decode($json_data, true);
+            if ($ip_data['status'] == 'success') {
+                return $ip_data['country_name'] === null ? '-' : $ip_data['country_name'];
+            }
+            return '-';
+        } catch (\Exception $exception) {
+            throw new \Exception('');
+        }
     }
 }
