@@ -14,7 +14,7 @@ class UrlsController extends Controller
 
     public function __construct(UrlService $service)
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except('short');
         $this->service = $service;
     }
     /**
@@ -105,10 +105,10 @@ class UrlsController extends Controller
         try {
             $realUrl = $this->service->getLongByShort($short);
         } catch (\DomainException $exception) {
-            return redirect(route('create-url'))->with('exception', $exception->getMessage());
+            return redirect('/')->with('exception', $exception->getMessage());
         }
         catch (\Exception $exception) {
-            return redirect(route('create-url'))->with('exception', 'Что-то пошло не так, попробуйте позже');
+            return redirect('/')->with('exception', 'Что-то пошло не так, попробуйте позже');
         }
         return redirect($realUrl);
     }
