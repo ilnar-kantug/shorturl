@@ -96,4 +96,17 @@ class UrlsController extends Controller
     {
         //
     }
+
+    public function short($short)
+    {
+        try {
+            $realUrl = $this->service->getLongByShort($short);
+        } catch (\DomainException $exception) {
+            return redirect(route('create-url'))->with('exception', $exception->getMessage());
+        }
+        catch (\Exception $exception) {
+            return redirect(route('create-url'))->with('exception', 'Что-то пошло не так, попробуйте позже');
+        }
+        return redirect($realUrl);
+    }
 }

@@ -19,7 +19,7 @@ class UrlHelper
 
     public static function createUniq($shortUrls)
     {
-        $short = str_random(5);
+        $short = str_random(Url::CHAR_IN_SHORT);
         if (in_array($short, $shortUrls)) {
             self::createUniq($shortUrls);
         }
@@ -34,5 +34,10 @@ class UrlHelper
     public static function trimLongUrl($url)
     {
         return str_replace(config('app.url'), '', trim($url, '/'));
+    }
+
+    public static function getFullLongUrl($url)
+    {
+        return config('app.url').$url;
     }
 }

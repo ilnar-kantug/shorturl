@@ -9,15 +9,11 @@
 @endif
 @if(session('exception'))
     <div class="alert alert-danger">
-        <ul>
-            <li>{{ session('exception') }}</li>
-        </ul>
+        {{ session('exception') }}
     </div>
 @endif
 @if(session('success'))
     <div class="alert alert-success">
-        <ul>
-            <li>{{ session('success') }}</li>
-        </ul>
+        {{ session('success') }}
     </div>
 @endif

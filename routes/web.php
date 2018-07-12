@@ -19,3 +19,5 @@ Auth::routes();
 
 Route::get('/create-url', 'UrlsController@create')->name('create-url');
 Route::post('/store-url', 'UrlsController@store')->name('store-url');
+
+Route::get('/z/{short}', 'UrlsController@short')->name('short-url');
