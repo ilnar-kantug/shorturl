@@ -1,4 +1,4 @@
-# My Laravel 5.6 boilerplate
+# Laravel URL Shortener project
 
 ## Getting Started
 
@@ -8,7 +8,7 @@ Install all needed packages
 composer install
 ```
 
-Create .env file, type in DB connection data
+Create .env file from .env.example (if you are not using build-in docker, then fill .env with your data)
 
 Generate key for project
 
@@ -21,11 +21,14 @@ Change permissions for common folders
 make perm
 ```
 
-Build docker environment. But before running this command change ports for services in docker-compose.yml if needed
+Build docker environment.
 ```
 make build-docker 
 ```
 
 If any command doesn't work properly try it with sudo.
 
-After instalation delete this README.md file if necessary.
+Run migrations
+```
+make migrate 
+```
